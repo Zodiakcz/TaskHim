@@ -57,3 +57,8 @@ model ShoppingItem {
   checkedAt DateTime?
   createdAt DateTime  @default(now())
 }
+
+model Config {
+  key   String @id
+  value String
+}

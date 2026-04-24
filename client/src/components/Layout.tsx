@@ -9,7 +9,7 @@ const tabs = [
 ]
 
 export function Layout({ children }: { children: ReactNode }) {
-  const { userName, clearUser } = useUser()
+  const { userName } = useUser()
   const navigate = useNavigate()
 
   return (
@@ -17,15 +17,12 @@ export function Layout({ children }: { children: ReactNode }) {
       {/* Top bar */}
       <header className="sticky top-0 z-10 bg-zinc-950/90 backdrop-blur border-b border-white/10 px-4 py-3 flex items-center justify-between">
         <span className="font-bold text-white text-lg">TaskHim</span>
-        <div className="flex items-center gap-3">
-          <span className="text-sm text-zinc-400">{userName}</span>
-          <button
-            onClick={() => { clearUser(); navigate('/') }}
-            className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
-          >
-            Změnit
-          </button>
-        </div>
+        <button
+          onClick={() => navigate('/change-password')}
+          className="text-sm text-zinc-400 hover:text-indigo-400 transition-colors"
+        >
+          {userName}
+        </button>
       </header>
 
       {/* Main content — extra bottom padding so content clears the fixed tab bar */}

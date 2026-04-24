@@ -1,4 +1,4 @@
-import type { Task, Subtask, Completion, ShoppingItem, Stats } from './types'
+import type { Task, Subtask, Completion, ShoppingItem, Stats, UserName } from './types'
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`/api${path}`, {
@@ -16,6 +16,14 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 type Ok = { ok: boolean }
 
 export const api = {
+  // Auth
+  me: () => request<{ userName: UserName }>('/auth/me'),
+  login: (userName: UserName, password: string) =>
+    request<{ userName: UserName }>('/auth/login', { method: 'POST', body: JSON.stringify({ userName, password }) }),
+  logout: () => request<Ok>('/auth/logout', { method: 'POST' }),
+  changePassword: (currentPassword: string, newPassword: string) =>
+    request<Ok>('/auth/change-password', { method: 'POST', body: JSON.stringify({ currentPassword, newPassword }) }),
+
   // Tasks
   tasks: () => request<Task[]>('/tasks'),
   task: (id: number) => request<Task>(`/tasks/${id}`),

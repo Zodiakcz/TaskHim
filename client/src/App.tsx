@@ -7,10 +7,12 @@ import { TaskDetail } from '@/pages/TaskDetail'
 import { TaskForm } from '@/pages/TaskForm'
 import { History } from '@/pages/History'
 import { Shopping } from '@/pages/Shopping'
+import { ChangePassword } from '@/pages/ChangePassword'
 
 function AppRoutes() {
-  const { userName } = useUser()
+  const { userName, loading } = useUser()
 
+  if (loading) return null
   if (!userName) return <UserPicker />
 
   return (
@@ -22,6 +24,7 @@ function AppRoutes() {
         <Route path="/tasks/:id/edit" element={<TaskForm />} />
         <Route path="/history" element={<History />} />
         <Route path="/shopping" element={<Shopping />} />
+        <Route path="/change-password" element={<ChangePassword />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Layout>
