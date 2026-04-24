@@ -1,6 +1,6 @@
 services:
   server:
-    image: ghcr.io/zodiakcz/taskHim/server:latest
+    image: ghcr.io/zodiakcz/taskhim/server:latest
     environment:
       - DATABASE_URL=file:/data/taskHim.db
       - NODE_ENV=production
@@ -11,7 +11,7 @@ services:
     restart: unless-stopped
 
   client:
-    image: ghcr.io/zodiakcz/taskHim/client:latest
+    image: ghcr.io/zodiakcz/taskhim/client:latest
     ports:
       - "8083:80"
     depends_on:

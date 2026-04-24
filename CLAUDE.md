@@ -73,4 +73,4 @@ taskhim.lankapp.cloud {
 ## GitHub
 
 - Repo: https://github.com/Zodiakcz/TaskHim
-- Images: ghcr.io/zodiakcz/taskHim/server and /client
+- Images: ghcr.io/zodiakcz/taskhim/server and /client

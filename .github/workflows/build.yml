@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_PREFIX: ghcr.io/zodiakcz/taskHim
+  IMAGE_PREFIX: ghcr.io/zodiakcz/taskhim
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
