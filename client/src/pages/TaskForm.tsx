@@ -136,7 +136,7 @@ export function TaskForm() {
   if (loading) return <div className="text-zinc-500 py-8 text-center">Načítání...</div>
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form id="task-form" onSubmit={handleSubmit} className="space-y-5">
       <h1 className="text-xl font-bold text-white">{isEdit ? 'Upravit úkol' : 'Nový úkol'}</h1>
 
       <div>

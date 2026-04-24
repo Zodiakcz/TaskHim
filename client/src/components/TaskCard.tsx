@@ -2,6 +2,16 @@ import { useNavigate } from 'react-router-dom'
 import type { Task } from '@/lib/types'
 import { LOCATION_LABELS, EFFORT_LABELS, PRIORITY_LABELS } from '@/lib/types'
 
+function taskAgeBadge(createdAt: string): { days: number; colorClass: string } {
+  const diffMs = Date.now() - new Date(createdAt).getTime()
+  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+  const colorClass =
+    days <= 15 ? 'text-green-400 bg-green-400/10' :
+    days <= 30 ? 'text-yellow-400 bg-yellow-400/10' :
+                 'text-red-400 bg-red-400/10'
+  return { days, colorClass }
+}
+
 function dueDateLabel(dueDate: string): { label: string; urgent: boolean } {
   const due = new Date(dueDate)
   const now = new Date()
@@ -68,6 +78,14 @@ export function TaskCard({ task }: Props) {
           )
         })()}
         {isRecurring && <span className="text-zinc-500 text-xs">↻</span>}
+        {!isRecurring && (() => {
+          const { days, colorClass } = taskAgeBadge(task.createdAt)
+          return (
+            <span className={`text-xs font-medium px-1.5 py-0.5 rounded ${colorClass}`}>
+              {days}d
+            </span>
+          )
+        })()}
       </div>
     </button>
   )
