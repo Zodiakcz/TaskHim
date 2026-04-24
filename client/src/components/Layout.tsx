@@ -51,7 +51,7 @@ export function Layout({ children }: { children: ReactNode }) {
           to="/tasks/new"
           className={({ isActive }) =>
             `flex-1 flex flex-col items-center justify-center py-3 gap-0.5 text-xs font-bold transition-colors ${
-              isActive ? 'text-white' : 'text-indigo-400 hover:text-indigo-300'
+              isActive ? 'bg-indigo-700 text-white' : 'bg-indigo-600 text-white hover:bg-indigo-500'
             }`
           }
         >
