@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { useUser } from '@/lib/user'
 import type { ReactNode } from 'react'
 
@@ -11,6 +11,8 @@ const tabs = [
 export function Layout({ children }: { children: ReactNode }) {
   const { userName } = useUser()
   const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const isTaskForm = pathname === '/tasks/new' || pathname.endsWith('/edit')
 
   return (
     <div className="min-h-screen bg-zinc-950 flex flex-col">
@@ -47,17 +49,28 @@ export function Layout({ children }: { children: ReactNode }) {
             {t.label}
           </NavLink>
         ))}
-        <NavLink
-          to="/tasks/new"
-          className={({ isActive }) =>
-            `flex-1 flex flex-col items-center justify-center py-3 gap-0.5 text-xs font-bold transition-colors ${
-              isActive ? 'bg-indigo-700 text-white' : 'bg-indigo-600 text-white hover:bg-indigo-500'
-            }`
-          }
-        >
-          <span className="text-xl leading-none">＋</span>
-          Nový
-        </NavLink>
+        {isTaskForm ? (
+          <button
+            form="task-form"
+            type="submit"
+            className="flex-1 flex flex-col items-center justify-center py-3 gap-0.5 text-xs font-bold transition-colors bg-indigo-600 text-white hover:bg-indigo-500"
+          >
+            <span className="text-xl leading-none">✓</span>
+            Uložit
+          </button>
+        ) : (
+          <NavLink
+            to="/tasks/new"
+            className={({ isActive }) =>
+              `flex-1 flex flex-col items-center justify-center py-3 gap-0.5 text-xs font-bold transition-colors ${
+                isActive ? 'bg-indigo-700 text-white' : 'bg-indigo-600 text-white hover:bg-indigo-500'
+              }`
+            }
+          >
+            <span className="text-xl leading-none">＋</span>
+            Nový
+          </NavLink>
+        )}
       </nav>
     </div>
   )
