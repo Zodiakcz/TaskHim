@@ -19,9 +19,9 @@ export const api = {
   // Tasks
   tasks: () => request<Task[]>('/tasks'),
   task: (id: number) => request<Task>(`/tasks/${id}`),
-  createTask: (data: Partial<Task> & { subtasks?: string[] }) =>
+  createTask: (data: Omit<Partial<Task>, 'subtasks'> & { subtasks?: string[] }) =>
     request<Task>('/tasks', { method: 'POST', body: JSON.stringify(data) }),
-  updateTask: (id: number, data: Partial<Task> & { subtasks?: string[] }) =>
+  updateTask: (id: number, data: Omit<Partial<Task>, 'subtasks'> & { subtasks?: string[] }) =>
     request<Task>(`/tasks/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteTask: (id: number) => request<Ok>(`/tasks/${id}`, { method: 'DELETE' }),
   completeTask: (id: number, note?: string) =>

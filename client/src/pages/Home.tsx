@@ -30,7 +30,7 @@ export function Home() {
   const [locationFilter, setLocationFilter] = useState<Location | ''>('')
   const { userName } = useUser()
   const navigate = useNavigate()
-  const intervalRef = useRef<ReturnType<typeof setInterval>>()
+  const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined)
 
   const load = useCallback(async () => {
     try {
