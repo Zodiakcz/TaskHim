@@ -1,0 +1,22 @@
+services:
+  server:
+    image: ghcr.io/zodiakcz/taskHim/server:latest
+    environment:
+      - DATABASE_URL=file:/data/taskHim.db
+      - NODE_ENV=production
+      - PORT=3000
+      - TZ=Europe/Prague
+    volumes:
+      - db-data:/data
+    restart: unless-stopped
+
+  client:
+    image: ghcr.io/zodiakcz/taskHim/client:latest
+    ports:
+      - "8083:80"
+    depends_on:
+      - server
+    restart: unless-stopped
+
+volumes:
+  db-data:

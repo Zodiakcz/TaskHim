@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// location: DOMA | VENKU | EXTERNI
+// effort:   KRATKE | STREDNI | DLOUHE
+// priority: NIZKA | NORMALNI | VYSOKA
+// status:   OTEVRENY | HOTOVY
+model Task {
+  id                 Int          @id @default(autoincrement())
+  title              String
+  notes              String?
+  location           String       @default("DOMA")
+  effort             String       @default("STREDNI")
+  priority           String       @default("NORMALNI")
+  dueDate            DateTime?
+  recurrenceInterval Int?
+  recurrenceUnit     String?      // "days" | "weeks" | "months"
+  status             String       @default("OTEVRENY")
+  activeSince        DateTime     @default(now())
+  createdBy          String
+  createdAt          DateTime     @default(now())
+
+  subtasks    Subtask[]
+  completions Completion[]
+}
+
+model Subtask {
+  id      Int     @id @default(autoincrement())
+  taskId  Int
+  task    Task    @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  text    String
+  order   Int
+  checked Boolean @default(false)
+}
+
+model Completion {
+  id          Int      @id @default(autoincrement())
+  taskId      Int
+  task        Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  userName    String
+  completedAt DateTime @default(now())
+  note        String?
+}
+
+model ShoppingItem {
+  id        Int       @id @default(autoincrement())
+  name      String
+  note      String?
+  addedBy   String
+  checked   Boolean   @default(false)
+  checkedAt DateTime?
+  createdAt DateTime  @default(now())
+}
