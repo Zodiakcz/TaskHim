@@ -1,9 +1,58 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { api } from '@/lib/api'
-import { useUser } from '@/lib/user'
 import type { Location, Effort, Priority, RecurrenceUnit } from '@/lib/types'
-import { LOCATION_LABELS, EFFORT_LABELS, PRIORITY_LABELS, RECURRENCE_UNIT_LABELS } from '@/lib/types'
+import { RECURRENCE_UNIT_LABELS } from '@/lib/types'
+
+function Pills<T extends string>({
+  options,
+  value,
+  onChange,
+}: {
+  options: { value: T; label: string; sub?: string }[]
+  value: T
+  onChange: (v: T) => void
+}) {
+  return (
+    <div className="flex gap-2">
+      {options.map((opt) => (
+        <button
+          key={opt.value}
+          type="button"
+          onClick={() => onChange(opt.value)}
+          className={`flex-1 py-2 px-2 rounded-lg border text-sm font-medium transition-colors leading-tight ${
+            value === opt.value
+              ? 'bg-indigo-600 border-indigo-500 text-white'
+              : 'border-zinc-700 text-zinc-400 hover:text-zinc-200'
+          }`}
+        >
+          {opt.label}
+          {opt.sub && (
+            <span className="block text-xs opacity-60 font-normal mt-0.5">{opt.sub}</span>
+          )}
+        </button>
+      ))}
+    </div>
+  )
+}
+
+const LOCATION_OPTIONS: { value: Location; label: string }[] = [
+  { value: 'DOMA', label: 'Doma' },
+  { value: 'VENKU', label: 'Venku' },
+  { value: 'EXTERNI', label: 'Externí' },
+]
+
+const EFFORT_OPTIONS: { value: Effort; label: string; sub: string }[] = [
+  { value: 'KRATKE', label: 'Krátké', sub: '1–2 hod.' },
+  { value: 'STREDNI', label: 'Střední', sub: '2–4 hod.' },
+  { value: 'DLOUHE', label: 'Dlouhé', sub: '4+ hod.' },
+]
+
+const PRIORITY_OPTIONS: { value: Priority; label: string }[] = [
+  { value: 'NIZKA', label: 'Nízká' },
+  { value: 'NORMALNI', label: 'Normální' },
+  { value: 'VYSOKA', label: 'Vysoká' },
+]
 
 function toDateInputValue(iso: string | null): string {
   if (!iso) return ''
@@ -14,8 +63,6 @@ export function TaskForm() {
   const { id } = useParams<{ id: string }>()
   const isEdit = Boolean(id)
   const navigate = useNavigate()
-  const { userName } = useUser()
-
   const [title, setTitle] = useState('')
   const [notes, setNotes] = useState('')
   const [location, setLocation] = useState<Location>('DOMA')
@@ -56,7 +103,7 @@ export function TaskForm() {
 
   const removeSubtask = (i: number) => setSubtasks((prev) => prev.filter((_, idx) => idx !== i))
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!title.trim()) return
     setSaving(true)
@@ -115,31 +162,19 @@ export function TaskForm() {
         />
       </div>
 
-      <div className="grid grid-cols-3 gap-3">
-        <div>
-          <label className="form-label">Lokace</label>
-          <select className="form-select" value={location} onChange={(e) => setLocation(e.target.value as Location)}>
-            {(Object.entries(LOCATION_LABELS) as [Location, string][]).map(([k, v]) => (
-              <option key={k} value={k}>{v}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="form-label">Náročnost</label>
-          <select className="form-select" value={effort} onChange={(e) => setEffort(e.target.value as Effort)}>
-            {(Object.entries(EFFORT_LABELS) as [Effort, string][]).map(([k, v]) => (
-              <option key={k} value={k}>{v}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="form-label">Priorita</label>
-          <select className="form-select" value={priority} onChange={(e) => setPriority(e.target.value as Priority)}>
-            {(Object.entries(PRIORITY_LABELS) as [Priority, string][]).map(([k, v]) => (
-              <option key={k} value={k}>{v}</option>
-            ))}
-          </select>
-        </div>
+      <div>
+        <label className="form-label">Lokace</label>
+        <Pills options={LOCATION_OPTIONS} value={location} onChange={setLocation} />
+      </div>
+
+      <div>
+        <label className="form-label">Náročnost</label>
+        <Pills options={EFFORT_OPTIONS} value={effort} onChange={setEffort} />
+      </div>
+
+      <div>
+        <label className="form-label">Priorita</label>
+        <Pills options={PRIORITY_OPTIONS} value={priority} onChange={setPriority} />
       </div>
 
       <div>
