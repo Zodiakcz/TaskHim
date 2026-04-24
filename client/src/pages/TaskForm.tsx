@@ -123,8 +123,8 @@ export function TaskForm() {
         await api.updateTask(Number(id), data)
         navigate(`/tasks/${id}`)
       } else {
-        const task = await api.createTask(data)
-        navigate(`/tasks/${task.id}`)
+        await api.createTask(data)
+        navigate('/')
       }
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Chyba')

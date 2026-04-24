@@ -16,7 +16,7 @@ export function Layout({ children }: { children: ReactNode }) {
     <div className="min-h-screen bg-zinc-950 flex flex-col">
       {/* Top bar */}
       <header className="sticky top-0 z-10 bg-zinc-950/90 backdrop-blur border-b border-white/10 px-4 py-3 flex items-center justify-between">
-        <span className="font-bold text-white text-lg">TaskHim</span>
+        <button onClick={() => navigate('/')} className="font-bold text-white text-lg hover:text-indigo-400 transition-colors">TaskHim</button>
         <button
           onClick={() => navigate('/change-password')}
           className="text-sm text-zinc-400 hover:text-indigo-400 transition-colors"
@@ -50,12 +50,12 @@ export function Layout({ children }: { children: ReactNode }) {
         <NavLink
           to="/tasks/new"
           className={({ isActive }) =>
-            `flex-1 flex flex-col items-center justify-center py-3 gap-0.5 text-xs font-medium transition-colors ${
-              isActive ? 'text-indigo-400' : 'text-zinc-500 hover:text-zinc-300'
+            `flex-1 flex flex-col items-center justify-center py-3 gap-0.5 text-xs font-bold transition-colors ${
+              isActive ? 'text-white' : 'text-indigo-400 hover:text-indigo-300'
             }`
           }
         >
-          <span className="text-lg leading-none">＋</span>
+          <span className="text-xl leading-none">＋</span>
           Nový
         </NavLink>
       </nav>
