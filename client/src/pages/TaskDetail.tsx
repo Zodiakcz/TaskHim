@@ -76,6 +76,14 @@ export function TaskDetail() {
 
   return (
     <div className="space-y-5">
+      {/* Back button */}
+      <button
+        onClick={() => navigate('/')}
+        className="w-full py-3 rounded-xl border border-zinc-700 text-zinc-300 hover:border-zinc-500 hover:text-white transition-colors text-sm font-medium"
+      >
+        ← Všechny úkoly
+      </button>
+
       {/* Header */}
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1">
